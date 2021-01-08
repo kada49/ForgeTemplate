@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "forgetemplate",
+    "name": "Forge Template",
+    "description": "conk",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [
+      "someone"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
