@@ -1,17 +1,8 @@
-buildscript {
-    repositories {
-        jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
-    }
+plugins {
+    id "java"
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+    id "net.minecraftforge.gradle.forge" version "86b2392"
 }
-
-apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "1.0"
 group = "dev.asbyth"
@@ -27,6 +18,22 @@ minecraft {
     makeObfSourceJar = false
 }
 
+configurations {
+    // Creates an extra configuration that implements `implementation` to be used later as the configuration that shades libraries
+    include
+    implementation.extendsFrom(include)
+}
+
+dependencies {
+    // How to normally add a dependency (If you don't want it to be added to the jar)
+    // implementation "com.example:example:1.0.0"
+    // If you would like to include it (have the library inside your jar) instead use
+    // include "com.example:example:1.0.0"
+}
+
+/**
+ * This task simply replaces the `${version}` and `${mcversion}` properties in the mcmod.info with the data from Gradle
+ */
 processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
@@ -46,12 +53,22 @@ processResources {
     }
 }
 
+/**
+ * This task simply moves resources so they can be accessed at runtime, Forge is quite weird isn't it
+ */
 task moveResources {
     doLast {
         ant.move file: "${buildDir}/resources/main",
-                todir: "${buildDir}/classes/java"
+            todir: "${buildDir}/classes/java"
     }
 }
 
 moveResources.dependsOn processResources
 classes.dependsOn moveResources
+
+// This adds support to ("embed", "shade", "include") libraries into our JAR
+shadowJar {
+    archiveClassifier.set('')
+    configurations = [project.configurations.include]
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+}
