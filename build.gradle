@@ -24,6 +24,11 @@ configurations {
     implementation.extendsFrom(include)
 }
 
+repositories {
+    // Add maven repositories to your buildscript so that they can be used to resolve dependencies
+    // maven "https://repo1.maven.org/maven2/"
+}
+
 dependencies {
     // How to normally add a dependency (If you don't want it to be added to the jar)
     // implementation "com.example:example:1.0.0"
@@ -73,4 +78,9 @@ shadowJar {
     duplicatesStrategy DuplicatesStrategy.EXCLUDE
 }
 
+reobf {
+    shadowJar {}
+}
+
 jar.dependsOn shadowJar
+jar.enabled = false
