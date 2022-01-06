@@ -59,17 +59,13 @@ processResources {
 }
 
 /**
- * This task simply moves resources so they can be accessed at runtime, Forge is quite weird isn't it
+ * This simply moves resources so they can be accessed at runtime, Forge is quite weird isn't it
  */
-task moveResources {
-    doLast {
-        ant.move file: "${buildDir}/resources/main",
-            todir: "${buildDir}/classes/java"
+sourceSets {
+    main {
+        output.resourcesDir = java.outputDir
     }
 }
-
-moveResources.dependsOn processResources
-classes.dependsOn moveResources
 
 // This adds support to ("embed", "shade", "include") libraries into our JAR
 shadowJar {
