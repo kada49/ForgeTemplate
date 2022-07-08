@@ -1,15 +1,11 @@
 plugins {
-    id "java"
-    id "com.github.johnrengelman.shadow" version "6.1.0"
-    id "net.minecraftforge.gradle.forge" version "6f53277"
+    java
+    id("com.github.johnrengelman.shadow") version "6.1.0"
+    id("net.minecraftforge.gradle.forge") version "6f53277"
 }
 
 version = "1.0"
 group = "dev.asbyth"
-archivesBaseName = "ForgeTemplate"
-
-sourceCompatibility = targetCompatibility = 1.8
-compileJava.options.encoding = 'UTF-8'
 
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
@@ -18,10 +14,14 @@ minecraft {
     makeObfSourceJar = false
 }
 
-configurations {
-    // Creates an extra configuration that implements `implementation` to be used later as the configuration that shades libraries
-    include
-    implementation.extendsFrom(include)
+val include: Configuration by configurations.creating
+configurations.implementation.get().extendsFrom(include)
+
+tasks.compileJava {
+    sourceCompatibility = "1.8"
+    targetCompatibility = "1.8"
+
+    options.encoding = "UTF-8"
 }
 
 repositories {
@@ -39,22 +39,22 @@ dependencies {
 /**
  * This task simply replaces the `${version}` and `${mcversion}` properties in the mcmod.info with the data from Gradle
  */
-processResources {
+tasks.processResources {
     // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+    inputs.property("version", project.version)
+    inputs.property("mcversion", project.minecraft.version)
 
     // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
+    from(sourceSets.main.get().resources.srcDirs) {
+        include("mcmod.info")
 
         // replace version and mcversion
-        expand 'version': project.version, 'mcversion': project.minecraft.version
+        expand("version" to project.version, "mcversion" to project.minecraft.version)
     }
 
     // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+    from(sourceSets.main.get().resources.srcDirs) {
+        exclude("mcmod.info")
     }
 }
 
@@ -63,20 +63,23 @@ processResources {
  */
 sourceSets {
     main {
-        output.resourcesDir = java.outputDir
+        output.setResourcesDir(java.outputDir)
     }
 }
 
 // This adds support to ("embed", "shade", "include") libraries into our JAR
-shadowJar {
-    archiveClassifier.set('')
-    configurations = [project.configurations.include]
-    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+tasks.shadowJar {
+    archiveClassifier.set("")
+    archiveBaseName.set("ForgeTemplate")
+    configurations = listOf(include)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 reobf {
-    shadowJar {}
+    register("shadowJar") {}
 }
 
-jar.dependsOn shadowJar
-jar.enabled = false
+tasks.jar {
+    dependsOn(tasks.shadowJar)
+}
+tasks.jar.get().enabled = false
