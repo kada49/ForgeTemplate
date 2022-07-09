@@ -18,13 +18,6 @@ minecraft {
 val include: Configuration by configurations.creating
 configurations.implementation.get().extendsFrom(include)
 
-tasks.compileJava {
-    sourceCompatibility = "1.8"
-    targetCompatibility = "1.8"
-
-    options.encoding = "UTF-8"
-}
-
 repositories {
     // Add maven repositories to your buildscript so that they can be used to resolve dependencies
     // maven "https://repo1.maven.org/maven2/"
@@ -38,28 +31,6 @@ dependencies {
 }
 
 /**
- * This task simply replaces the `${version}` and `${mcversion}` properties in the mcmod.info with the data from Gradle
- */
-tasks.processResources {
-    // this will ensure that this task is redone when the versions change.
-    inputs.property("version", project.version)
-    inputs.property("mcversion", project.minecraft.version)
-
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.get().resources.srcDirs) {
-        include("mcmod.info")
-
-        // replace version and mcversion
-        expand("version" to project.version, "mcversion" to project.minecraft.version)
-    }
-
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.get().resources.srcDirs) {
-        exclude("mcmod.info")
-    }
-}
-
-/**
  * This simply moves resources so they can be accessed at runtime, Forge is quite weird isn't it
  */
 sourceSets {
@@ -68,19 +39,50 @@ sourceSets {
     }
 }
 
-// This adds support to ("embed", "shade", "include") libraries into our JAR
-tasks.shadowJar {
-    archiveClassifier.set("")
-    archiveBaseName.set("ForgeTemplate")
-    configurations = listOf(include)
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+tasks {
+    /**
+     * This task simply replaces the `${version}` and `${mcversion}` properties in the mcmod.info with the data from Gradle
+     */
+    processResources {
+        // this will ensure that this task is redone when the versions change.
+        inputs.property("version", project.version)
+        inputs.property("mcversion", project.minecraft.version)
+
+        // replace stuff in mcmod.info, nothing else
+        from(sourceSets.main.get().resources.srcDirs) {
+            include("mcmod.info")
+
+            // replace version and mcversion
+            expand("version" to project.version, "mcversion" to project.minecraft.version)
+        }
+
+        // copy everything else, thats not the mcmod.info
+        from(sourceSets.main.get().resources.srcDirs) {
+            exclude("mcmod.info")
+        }
+    }
+
+    // This adds support to ("embed", "shade", "include") libraries into our JAR
+    shadowJar {
+        archiveClassifier.set("")
+        archiveBaseName.set("ForgeTemplate")
+        configurations = listOf(include)
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+
+    jar {
+        dependsOn(shadowJar)
+        enabled = false
+    }
+
+    compileJava {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
+
+        options.encoding = "UTF-8"
+    }
 }
 
 reobf {
     register("shadowJar") {}
 }
-
-tasks.jar {
-    dependsOn(tasks.shadowJar)
-}
-tasks.jar.get().enabled = false
