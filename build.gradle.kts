@@ -14,6 +14,7 @@ minecraft {
     makeObfSourceJar = false
 }
 
+// Creates an extra configuration that implements `implementation` to be used later as the configuration that shades libraries
 val include: Configuration by configurations.creating
 configurations.implementation.get().extendsFrom(include)
 
