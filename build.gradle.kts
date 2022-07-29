@@ -33,10 +33,8 @@ dependencies {
 /**
  * This simply moves resources so they can be accessed at runtime, Forge is quite weird isn't it
  */
-sourceSets {
-    main {
-        output.setResourcesDir(java.outputDir)
-    }
+sourceSets.main {
+    output.setResourcesDir(java.outputDir)
 }
 
 tasks {
@@ -83,6 +81,4 @@ tasks {
     }
 }
 
-reobf {
-    register("shadowJar") {}
-}
+reobf.register("shadowJar") {}
