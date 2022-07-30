@@ -1,4 +1,4 @@
-# Template for a Minecraft Forge 1.8.9 Mod
+# Template for a Minecraft Forge 1.8.9 Mod - NOT WORKING AT THE MOMENT
 
 
 ## Usage
