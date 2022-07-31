@@ -6,7 +6,7 @@ This guide works with JetBrains' [IntelliJ IDEA Community Edition](https://www.j
 There are two main ways to use template, choose the one that fits you best
 
 1. First Method
-    * Click on the `Code` button [here](https://github.com/kada49/ForgeTemplate), then click "Download ZIP".
+    * Click on the `Code` button [here](https://github.com/kada49/ForgeTemplate), then click "Download ZIP" or download it directly from [here](https://github.com/kada49/ForgeTemplate/archive/refs/heads/master.zip).
     * Extract the folder from the ZIP folder and open the project in IntelliJ IDEA
 2. Second Method
     * Click on the `Use this template` button [here](https://github.com/kada49/ForgeTemplate) or follow [this link](https://github.com/kada49/ForgeTemplate/generate).
