@@ -21,17 +21,21 @@ loom {
     }
 }
 
+//Creates a configuration called `include` to declare dependencies
 val include: Configuration by configurations.creating
 configurations.implementation.get().extendsFrom(include)
 
 dependencies {
+    //With ´include´ you include libraries to be inside your .jar file.
     include("gg.essential:loader-launchwrapper:1.1.3")
-    compileOnly("gg.essential:essential-$platform:4276+g845a16235")
+    //With ´implementation´ you include libraries NOT to be inside your .jar file.
+    implementation("gg.essential:essential-$platform:4276+g845a16235")
 }
 
 tasks.jar {
     from(include.files.map { zipTree(it) })
 
+    //Manifest attributes to make Essential work as a mod
     manifest.attributes(
         mapOf(
             "ModSide" to "CLIENT",
