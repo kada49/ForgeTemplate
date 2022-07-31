@@ -1,84 +1,41 @@
+import gg.essential.gradle.util.noServerRunConfigs
+
 plugins {
-    java
-    id("com.github.johnrengelman.shadow") version "6.1.0"
-    id("net.minecraftforge.gradle.forge") version "6f53277"
+    kotlin("jvm")
+    id("gg.essential.multi-version")
+    id("gg.essential.defaults")
 }
 
+val modGroup: String by project
+val modBaseName: String by project
+group = modGroup
+base.archivesName.set(modBaseName)
 version = "1.0"
-group = "dev.asbyth"
 
-minecraft {
-    version = "1.8.9-11.15.1.2318-1.8.9"
-    runDir = "run"
-    mappings = "stable_22"
-    makeObfSourceJar = false
+loom {
+    noServerRunConfigs()
+    launchConfigs {
+        getByName("client") {
+            arg("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
+        }
+    }
 }
 
-// Creates an extra configuration that implements `implementation` to be used later as the configuration that shades libraries
 val include: Configuration by configurations.creating
 configurations.implementation.get().extendsFrom(include)
 
-repositories {
-    // Add maven repositories to your buildscript so that they can be used to resolve dependencies
-    // maven "https://repo1.maven.org/maven2/"
-}
-
 dependencies {
-    // How to normally add a dependency (If you don't want it to be added to the jar)
-    // implementation "com.example:example:1.0.0"
-    // If you would like to include it (have the library inside your jar) instead use
-    // include "com.example:example:1.0.0"
+    include("gg.essential:loader-launchwrapper:1.1.3")
+    compileOnly("gg.essential:essential-$platform:4276+g845a16235")
 }
 
-/**
- * This simply moves resources so they can be accessed at runtime, Forge is quite weird isn't it
- */
-sourceSets.main {
-    output.setResourcesDir(java.outputDir)
+tasks.jar {
+    from(include.files.map { zipTree(it) })
+
+    manifest.attributes(
+        mapOf(
+            "ModSide" to "CLIENT",
+            "TweakClass" to "gg.essential.loader.stage0.EssentialSetupTweaker"
+        )
+    )
 }
-
-tasks {
-    /**
-     * This task simply replaces the `${version}` and `${mcversion}` properties in the mcmod.info with the data from Gradle
-     */
-    processResources {
-        // this will ensure that this task is redone when the versions change.
-        inputs.property("version", project.version)
-        inputs.property("mcversion", project.minecraft.version)
-
-        // replace stuff in mcmod.info, nothing else
-        from(sourceSets.main.get().resources.srcDirs) {
-            include("mcmod.info")
-
-            // replace version and mcversion
-            expand("version" to project.version, "mcversion" to project.minecraft.version)
-        }
-
-        // copy everything else, thats not the mcmod.info
-        from(sourceSets.main.get().resources.srcDirs) {
-            exclude("mcmod.info")
-        }
-    }
-
-    // This adds support to ("embed", "shade", "include") libraries into our JAR
-    shadowJar {
-        archiveClassifier.set("")
-        archiveBaseName.set("ForgeTemplate")
-        configurations = listOf(include)
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    }
-
-    jar {
-        dependsOn(shadowJar)
-        enabled = false
-    }
-
-    compileJava {
-        sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
-
-        options.encoding = "UTF-8"
-    }
-}
-
-reobf.register("shadowJar") {}

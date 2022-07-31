@@ -2,15 +2,13 @@
   {
     "modid": "forgetemplate",
     "name": "ForgeTemplate",
-    "description": "An example template",
+    "description": "Template for a Forge 1.8.9 Mod",
     "version": "${version}",
-    "mcversion": "${mcversion}",
+    "mcversion": "${mcVersionStr}",
     "url": "",
     "updateUrl": "",
-    "authorList": [
-      ""
-    ],
-    "credits": "",
+    "authorList": ["kada49"],
+    "credits": "xcfrg for inspiration, the Essential Discord Server for the help",
     "logoFile": "",
     "screenshots": [],
     "dependencies": []
