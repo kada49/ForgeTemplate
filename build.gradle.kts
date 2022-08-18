@@ -29,7 +29,7 @@ dependencies {
     //With ´include´ you include libraries to be inside your .jar file.
     include("gg.essential:loader-launchwrapper:1.1.3")
     //With ´implementation´ you include libraries NOT to be inside your .jar file.
-    implementation("gg.essential:essential-$platform:4276+g845a16235")
+    implementation("gg.essential:essential-$platform:+")
 }
 
 tasks.jar {

@@ -14,6 +14,7 @@ public class ForgeTemplate {
     public Logger LOGGER = LogManager.getLogger("ForgeTemplate");
 
     @EventHandler
+    @SuppressWarnings("unused")
     public void init (FMLInitializationEvent event) {
         LOGGER.info("Hello, World!");
         MinecraftForge.EVENT_BUS.register(this);
