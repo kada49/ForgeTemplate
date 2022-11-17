@@ -8,9 +8,11 @@ plugins {
 
 val modGroup: String by project
 val modBaseName: String by project
+val modVersion: String by project
+
 group = modGroup
+version = modVersion
 base.archivesName.set(modBaseName)
-version = "1.0"
 
 loom {
     noServerRunConfigs()
@@ -29,7 +31,7 @@ dependencies {
     //With ´include´ you include libraries to be inside your .jar file.
     include("gg.essential:loader-launchwrapper:1.1.3")
     //With ´implementation´ you include libraries NOT to be inside your .jar file.
-    implementation("gg.essential:essential-$platform:+")
+    implementation("gg.essential:essential-$platform:11032+g1ed9dbc08")
 }
 
 tasks.jar {
