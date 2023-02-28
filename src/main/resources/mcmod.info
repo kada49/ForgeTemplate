@@ -4,7 +4,7 @@
     "name": "ForgeTemplate",
     "description": "Template for a Forge 1.8.9 Mod",
     "version": "${version}",
-    "mcversion": "${mcVersionStr}",
+    "mcversion": "1.8.9",
     "url": "",
     "updateUrl": "",
     "authorList": ["kada49"],
