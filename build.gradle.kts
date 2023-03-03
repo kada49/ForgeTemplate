@@ -1,5 +1,4 @@
 import dev.architectury.pack200.java.Pack200Adapter
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
@@ -43,15 +42,15 @@ dependencies {
     mappings("de.oceanlabs.mcp:mcp_stable:22-1.8.9")
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
 
-
     // Uncomment this if you want to use the essential library
     include("gg.essential:loader-launchwrapper:1.1.3")
-    implementation("gg.essential:essential-1.8.9-forge:11965+g800d8ccf6")
+    implementation("gg.essential:essential-1.8.9-forge:11640+g7f637cfee")
 }
 
 tasks {
     processResources {
         inputs.property("version", project.version)
+
         filesMatching("mcmod.info") {
             expand("version" to project.version)
         }
@@ -69,10 +68,6 @@ tasks {
                 "TweakClass" to "gg.essential.loader.stage0.EssentialSetupTweaker"
             )
         )
-    }
-
-    withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
     }
 
     withType<JavaCompile> {
