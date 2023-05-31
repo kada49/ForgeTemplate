@@ -2,7 +2,7 @@ import dev.architectury.pack200.java.Pack200Adapter
 
 plugins {
     java
-    kotlin("jvm") version ("1.8.10")
+    kotlin("jvm") version ("1.8.21")
     id("gg.essential.loom") version ("0.10.0.5")
     id("dev.architectury.architectury-pack200") version ("0.1.3")
 }
@@ -15,15 +15,15 @@ group = modGroup
 version = modVersion
 base.archivesName.set(modName)
 
-
-// Uncomment this if you want to use the essential library
-
 loom {
+    // Uncomment this if you want to use the essential library
+    /*
     launchConfigs {
         getByName("client") {
             arg("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
         }
     }
+    */
     forge.pack200Provider.set(Pack200Adapter())
 }
 
@@ -42,9 +42,9 @@ dependencies {
     mappings("de.oceanlabs.mcp:mcp_stable:22-1.8.9")
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
 
-    // Uncomment this if you want to use the essential library
-    include("gg.essential:loader-launchwrapper:1.1.3")
-    implementation("gg.essential:essential-1.8.9-forge:11640+g7f637cfee")
+    // Uncomment the following lines if you want to use the essential library
+    //include("gg.essential:loader-launchwrapper:1.2.0")
+    //implementation("gg.essential:essential-1.8.9-forge:12710+g6e483f58b")
 }
 
 tasks {
@@ -61,13 +61,14 @@ tasks {
         from(include.files.map { zipTree(it) })
 
         // Uncomment this if you want to use the essential library
-
+        /*
         manifest.attributes(
             mapOf(
                 "ModSide" to "CLIENT",
                 "TweakClass" to "gg.essential.loader.stage0.EssentialSetupTweaker"
             )
         )
+        */
     }
 
     withType<JavaCompile> {
