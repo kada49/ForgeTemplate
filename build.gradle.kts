@@ -17,13 +17,13 @@ base.archivesName.set(modName)
 
 loom {
     // Uncomment this if you want to use the essential library
-    /*
+
     launchConfigs {
         getByName("client") {
             arg("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
         }
     }
-    */
+
     forge.pack200Provider.set(Pack200Adapter())
 }
 
@@ -43,8 +43,8 @@ dependencies {
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
 
     // Uncomment the following lines if you want to use the essential library
-    //include("gg.essential:loader-launchwrapper:1.2.0")
-    //implementation("gg.essential:essential-1.8.9-forge:12710+g6e483f58b")
+    include("gg.essential:loader-launchwrapper:1.2.0")
+    modCompileOnly("gg.essential:essential-1.8.9-forge:2036+release-1.2")
 }
 
 tasks {
@@ -61,14 +61,14 @@ tasks {
         from(include.files.map { zipTree(it) })
 
         // Uncomment this if you want to use the essential library
-        /*
+
         manifest.attributes(
             mapOf(
                 "ModSide" to "CLIENT",
                 "TweakClass" to "gg.essential.loader.stage0.EssentialSetupTweaker"
             )
         )
-        */
+
     }
 
     withType<JavaCompile> {
