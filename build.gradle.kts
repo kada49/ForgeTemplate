@@ -17,10 +17,11 @@ base.archivesName.set(modName)
 
 loom {
     // Uncomment this if you want to use the essential library
-
+    /*
     runConfigs.getByName("client") {
         programArgs("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
     }
+    */
 
     forge.pack200Provider.set(Pack200Adapter())
 }
@@ -58,13 +59,14 @@ tasks {
         from(embed.files.map { zipTree(it) })
 
         // Uncomment this if you want to use the essential library
-
+        /*
         manifest.attributes(
             mapOf(
                 "ModSide" to "CLIENT",
                 "TweakClass" to "gg.essential.loader.stage0.EssentialSetupTweaker"
             )
         )
+        */
     }
 
     withType<JavaCompile> {
