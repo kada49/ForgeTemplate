@@ -2,8 +2,8 @@ import dev.architectury.pack200.java.Pack200Adapter
 
 plugins {
     java
-    kotlin("jvm") version ("1.8.22")
-    id("gg.essential.loom") version ("1.2.8")
+    kotlin("jvm") version ("1.9.10")
+    id("gg.essential.loom") version ("1.3.12")
     id("dev.architectury.architectury-pack200") version ("0.1.3")
 }
 
@@ -30,7 +30,7 @@ repositories {
     maven("https://repo.essential.gg/repository/maven-public")
 }
 
-//Creates a configuration called `include` to declare dependencies
+//Creates a configuration called `embed` to declare dependencies
 val embed: Configuration by configurations.creating
 configurations.implementation.get().extendsFrom(embed)
 
@@ -41,8 +41,8 @@ dependencies {
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
 
     // Uncomment the following lines if you want to use the essential library
-    embed("gg.essential:loader-launchwrapper:1.2.1")
-    compileOnly("gg.essential:essential-1.8.9-forge:13419+gad15d412e")
+    // embed("gg.essential:loader-launchwrapper:1.2.2")
+    // compileOnly("gg.essential:essential-1.8.9-forge:14563+g7d1e613e0b")
 }
 
 tasks {
