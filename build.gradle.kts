@@ -1,5 +1,3 @@
-import gg.essential.gradle.util.noServerRunConfigs
-
 plugins {
     kotlin("jvm")
     id("gg.essential.multi-version")
@@ -15,27 +13,26 @@ version = modVersion
 base.archivesName.set(modBaseName)
 
 loom {
-    noServerRunConfigs()
-    launchConfigs {
+    runConfigs {
         getByName("client") {
-            arg("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
+            programArgs("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
         }
     }
 }
 
-//Creates a configuration called `include` to declare dependencies
-val include: Configuration by configurations.creating
-configurations.implementation.get().extendsFrom(include)
+//Creates a configuration called `embed` to declare dependencies
+val embed: Configuration by configurations.creating
+configurations.implementation.get().extendsFrom(embed)
 
 dependencies {
     //With ´include´ you include libraries to be inside your .jar file.
-    include("gg.essential:loader-launchwrapper:1.2.0")
+    embed("gg.essential:loader-launchwrapper:1.2.2")
     //With ´implementation´ you include libraries NOT to be inside your .jar file.
-    implementation("gg.essential:essential-$platform:12710+g6e483f58b")
+    compileOnly("gg.essential:essential-$platform:14563+g7d1e613e0b")
 }
 
 tasks.jar {
-    from(include.files.map { zipTree(it) })
+    from(embed.files.map { zipTree(it) })
 
     //Manifest attributes to make Essential work as a mod
     manifest.attributes(
