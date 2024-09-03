@@ -14,3 +14,7 @@ There are two main ways to use template, choose the one that fits you best
     * In IntelliJ IDEA open the project by copying your repository's URL, clicking `Get from VCS`, paste the URL and click `Clone`.
 
 When you opened the project replace the mod's name - `ForgeTemplate`, the mod id - `forgetemplate` and the mod version - `1.0` in the `gradle.properties` file and in the main mod class.
+
+### From the command line
+
+You need to have a Java 17 JDK installed, then just execute the commands `./gradlew` to update dependencies and `./gradlew build` to generate a `.jar` file in `build/libs`.
