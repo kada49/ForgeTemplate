@@ -26,9 +26,9 @@ configurations.implementation.get().extendsFrom(embed)
 
 dependencies {
     //With ´include´ you include libraries to be inside your .jar file.
-    embed("gg.essential:loader-launchwrapper:1.2.2")
+    embed("gg.essential:loader-launchwrapper:1.2.3")
     //With ´implementation´ you include libraries NOT to be inside your .jar file.
-    compileOnly("gg.essential:essential-$platform:14563+g7d1e613e0b")
+    compileOnly("gg.essential:essential-$platform:17141+gd6f4cfd3a8")
 }
 
 tasks.jar {
